@@ -28,22 +28,29 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <div class="mr-auto">LOGO</div>
       <ul class="navbar-nav ml-auto mt-2 mt-lg-0 font-weight-bold text-uppercase">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#home">Home</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="#about">How To play</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#about">About</a>
+          <a class="nav-link" href="#projects">Terms and Conditions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#projects">Projects</a>
+          <a class="nav-link" href="#projects">Contact Us</a>
         </li>
-        <li class="nav-item">
+        @if (Auth::check())
+        <li class="nav-item ">
         <form action="{{ route('logout') }}" method="post" class="col-6" >
         @csrf
-            <button type="submit" class="btn btn-sm btn-danger">Logout</button>
+            <button type="submit" class="btn btn-sm btn-danger mt-1">Logout</button>
         </form>
         </li>
+        @endif
+
       </ul>
     </div>
   </nav>

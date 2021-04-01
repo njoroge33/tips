@@ -63,7 +63,7 @@
 <div class="text-center font-weight-bold mt-5">
 <h2>PREVIOUS PREDICTIONS </h2>
 </div>
-<table class="table table-striped tab-content" id="tab-8">
+<table class="table table-striped tab-content text-center" id="tab-8">
   <thead class="bg-warning">
     <tr>
     <th scope="col">DATE</th>
