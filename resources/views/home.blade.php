@@ -35,7 +35,8 @@
 <div class="text-center font-weight-bold">
 <h2>FEATURED MATCHES</h2>
 </div>
-<table class="table table-striped tab-content" id="tab-8">
+@if ($tips-> count())
+<table class="table table-striped tab-content text-center" id="tab-8">
   <thead class="bg-warning">
     <tr>
     <th scope="col">DATE</th>
@@ -44,24 +45,19 @@
     </tr>
   </thead>
   <tbody>
+  @foreach ($tips as $tip)
     <tr>
-      <th>bjbjbj</th>
-      <td class="color-orange-light">nbvbn</td>
-      <td class="color-orange-light">vnbnmb</td>
-     
+      <th>{{date("Y-m-d H:i:s", strtotime($tip->game_date))}}</th>
+      <td class="color-orange-light">{{ucfirst(trans($tip->league))}}</td>
+      <td class="color-orange-light">{{ucfirst(trans($tip->home_team))}} <p class="m-0 p-0"><strong>VS</strong></p> {{ucfirst(trans($tip->away_team))}}</td>
     </tr>
-
-    <tr>
-      <th>bjbjbj</th>
-      <td class="color-orange-light">nbvbn</td>
-      <td class="color-orange-light">vnbnmb</td>
-      
-    </tr>
+@endforeach
 
   </tbody>
 </table>
+@endif
 <div class="text-center">
-<a class="btn btn-sm btn-info" href="{{ route('login')}}">views tip</a>
+<a class="btn btn-sm btn-info" href="{{ route('tips')}}">views tip</a>
 </div>
 
 <div class="text-center font-weight-bold mt-5">

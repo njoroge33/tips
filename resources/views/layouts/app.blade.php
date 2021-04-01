@@ -39,18 +39,21 @@
           <a class="nav-link" href="#projects">Projects</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#contacts">Contacts</a>
+        <form action="{{ route('logout') }}" method="post" class="col-6" >
+        @csrf
+            <button type="submit" class="btn btn-sm btn-danger">Logout</button>
+        </form>
         </li>
       </ul>
     </div>
   </nav>
     <div id="app">
-        <main style="height:76vh;">
+        <main style="margin-bottom:110px;">
       
             @yield('content')
         </main>
 
-        <div class="text-center bg-success mt-3" id="contacts" style="padding-bottom: 2%;padding-top: 1%;">
+        <div class="text-center bg-success fixed-bottom" id="contacts" style="padding-bottom: 2%;padding-top: 1%;">
     <a href="#" class="text-warning">suretips@gmail.com</a>
     <div>
       <a href="" class="fa fa-twitter-square fa-2x text-info"></a>

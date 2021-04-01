@@ -30,24 +30,14 @@ class LoginController extends Controller
 
 // $phone = $request->phone;
         $user = Profile::where(['msisdn'=> $mobilenumber,'unique_key'=>$unique_key])->first();
-        // dd($user);
-
-		// if(!$user)
-		// {	
-		// return redirect()->back()->withError('Invalid login details provided!');
-		// }        
-
-		// if(Auth::login($user)){
-		// 	// return redirect()->route('home');
-        //     dd('ghh');
-        // }
-
-        if($user)
-		{
-		
-	        return redirect()->route('tips')->withSuccess('Welcome back');
-        }
-
+     
+        if(!$user)
+		{	
+		return redirect()->back()->withError('Invalid login details provided!');
+		}  
+        Auth::login($user);
+        return redirect()->route('tips');
+       
     }
 
 }

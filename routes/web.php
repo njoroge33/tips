@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\SubscribeController;
 use App\Http\Controllers\TipController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +18,11 @@ use App\Http\Controllers\TipController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');
+
+Route::get('/',[HomeController::class, 'index'])->name('home');
 
 Route::get('/tips',[TipController::class, 'index'])->name('tips');
 
@@ -27,3 +31,5 @@ Route::post('/login', [LoginController::class, 'store']);
 
 Route::get('/subscribe', [SubscribeController::class, 'index'])->name('subscribe');
 Route::post('/subscribe', [SubscribeController::class, 'store']);
+
+Route::post('/logout', [LogoutController::class, 'store'])->name('logout');

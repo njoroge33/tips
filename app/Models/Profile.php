@@ -10,6 +10,7 @@ class Profile extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $guard = 'profile';
     protected $primaryKey = 'profile_id';
 
     /**
