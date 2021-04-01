@@ -61,6 +61,7 @@
         </main>
 
         <div class="text-center bg-success fixed-bottom" id="contacts" style="padding-bottom: 2%;padding-top: 1%;">
+        <p><strong>Our Social Media Accounts</strong></p>
     <a href="#" class="text-warning">suretips@gmail.com</a>
     <div>
       <a href="" class="fa fa-twitter-square fa-2x text-info"></a>

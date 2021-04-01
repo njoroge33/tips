@@ -2,7 +2,7 @@
  
  @section('content')
  <div class="container">
-        <p class="text-center mt-2">Make sure you have subscribed to Bettip online service to get tips before you Login.<a href="#">Subscribe</a></p>
+        <p class="text-center mt-2">Make sure you have subscribed to Bettip online service to get tips before you Login.<a href="{{route('subscribe')}}">Subscribe</a></p>
         <div class="card card-style mt-3 p-2 mb-5">
 
              <div class="content">
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="form-group text-center">
-                        <P>Not yet subscribed <a href="">subscribe </a>to get a unique key.</P>
+                        <P>Not yet subscribed <a href="{{route('subscribe')}}">Subscribe </a>to get a unique key.</P>
                         </div>
 
                      </form>
