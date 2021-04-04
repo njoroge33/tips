@@ -4,7 +4,7 @@
 <div class="container-fluid">
 <h2 class="text-center">Today's Predictions </h2>
 @if ($tips-> count())
-<table class="table table-striped tab-content text-center" id="tab-8">
+<table class="table table-striped text-center m-0">
   <thead class="bg-warning">
     <tr>
     <th scope="col">DATE</th>

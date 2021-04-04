@@ -78,6 +78,7 @@ class SubscribeController extends Controller
                 $curl_response = curl_exec($curl);
                 // $this -> mpesaConfirmation(Request);
                 $results = json_decode($curl_response,true);
+                // dd($results);
                 if(isset($results['ResponseCode'])){
                     $checkout->overallstatus ="PENDING";
                     $checkout->overallstatusHistory ="Pending user to enter PIN";
@@ -106,8 +107,7 @@ class SubscribeController extends Controller
                 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
                 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
                 $curl_response = curl_exec($curl);
-                $access_token=json_decode($curl_response);
-                return $access_token->access_token;
+                return json_decode($curl_response)->access_token;
             }
 
 }
