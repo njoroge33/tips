@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Carbon\Carbon;
+use App\Models\Profile;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\DeleteProfile::class,
     ];
 
     /**
@@ -24,7 +26,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // $schedule->call(function () {
+            
+        // })->everyMinute();
         // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            Profile::where('unique_key_expiry', '<', Carbon::now())->delete();
+        })->everyMinute();
     }
 
     /**

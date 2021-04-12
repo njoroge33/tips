@@ -28,16 +28,16 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <div class="mr-auto">LOGO</div>
+    <div class="mr-auto"><a href="{{ route('home') }}">LOGO</a></div>
       <ul class="navbar-nav ml-auto mt-2 mt-lg-0 font-weight-bold text-uppercase">
         <!-- <li class="nav-item">
           <a class="nav-link" href="#home">Home</a>
         </li> -->
         <li class="nav-item">
-          <a class="nav-link" href="#about">How To play</a>
+          <a class="nav-link" href="{{ route('how') }}">How To play</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#projects">Terms and Conditions</a>
+          <a class="nav-link" href="{{ route('terms') }}">Terms and Conditions</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#projects">Contact Us</a>
@@ -55,7 +55,7 @@
     </div>
   </nav>
     <div id="app">
-        <main style="margin-bottom:110px;">
+        <main style="margin-bottom:140px;">
       
             @yield('content')
         </main>

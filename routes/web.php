@@ -33,3 +33,11 @@ Route::get('/subscribe', [SubscribeController::class, 'index'])->name('subscribe
 Route::post('/subscribe', [SubscribeController::class, 'store']);
 
 Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
+
+Route::get('/how', function () {
+    return view('how');
+})->name('how');
+
+Route::get('/terms', function () {
+    return view('terms');
+})->name('terms');
