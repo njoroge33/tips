@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\SubscribeController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PreviousController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,8 @@ Route::get('/subscribe', [SubscribeController::class, 'index'])->name('subscribe
 Route::post('/subscribe', [SubscribeController::class, 'store']);
 
 Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
+
+Route::get('/previous_prediction',[PreviousController::class, 'index'])->name('previous');
 
 Route::get('/how', function () {
     return view('how');

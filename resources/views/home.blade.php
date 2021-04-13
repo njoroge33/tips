@@ -92,7 +92,7 @@
   </tbody>
 </table>
 <div class="text-center">
-<a class="btn btn-sm btn-info">More predictions</a>
+<a class="btn btn-sm btn-info" href="{{ route('previous')}}">More predictions</a>
 </div>
 </div>
 

@@ -12,7 +12,7 @@ class HomeController extends Controller
     public function index() {
             $tips = Tip::where('game_date', '>', Carbon::now())->get();
             
-            $outcomes = Tip::with('outcome')->where('game_date', '<', Carbon::now())->get();
+            $outcomes = Tip::with('outcome')->where('game_date', '<', Carbon::now())->paginate(5);
             // dd($outcomes);
             Profile::where('unique_key_expiry', '<', Carbon::now())->delete();
             
