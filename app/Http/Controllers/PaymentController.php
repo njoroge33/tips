@@ -49,6 +49,9 @@ $validator = Validator::make($data,
 
      if($payment)
     {
+        $message = "<#SURETIPS>: Dear .$payment -> customerName ,Your deposit for KSH .$payment->amount was a success";
+        Utils::SendMessage($payment->MSISDN, $message);
+
         function randomPassword() {
             $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
             $pass = array(); //remember to declare $pass as an array
@@ -67,17 +70,25 @@ $validator = Validator::make($data,
             'unique_key'=> randomPassword(),
             // 'unique_key_expiry' => ,
         ]);
-        
-        if ($payment['amount'] == 50){
-            // add 3 days to date
-            $user['unique_key_expiry'] = date('y:m:d', strtotime('+3 days'));
-            $user->save();
 
-        } elseif ($payment['amount'] == 100){
-            // add 3 days to date
-            $user['unique_key_expiry'] = date('y:m:d', strtotime('+7 days'));
-            $user->save();
+        if($user){
+
+            if ($payment['amount'] == 50){
+                // add 3 days to date
+                $user['unique_key_expiry'] = date('y:m:d', strtotime('+3 days'));
+                $user->save();
+    
+            } elseif ($payment['amount'] == 100){
+                // add 3 days to date
+                $user['unique_key_expiry'] = date('y:m:d', strtotime('+7 days'));
+                $user->save();
+            }
+
+            $message = "<#SURETIPS>: Dear .$user->profile_name ,Your Unique Key is .$user->uniqe_key . It will be expire on .$user->uniqe_key_expiry.";
+            Utils::SendMessage($user->msisdn, $message);
         }
+        
+        
     }
         // $response = json_decode($request -> getContent());
 
