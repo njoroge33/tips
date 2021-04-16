@@ -1,6 +1,7 @@
 @extends('layouts.app')
  
  @section('content')
+ @include('partials.messages')
  <div class="container">
         <p class="text-center mt-2">Make sure you have subscribed to Bettip online service to get tips before you Login.<a href="{{route('subscribe')}}">Subscribe</a></p>
         <div class="card card-style mt-3 p-2 mb-5">

@@ -36,7 +36,7 @@ class LoginController extends Controller
 		return redirect()->back()->withError('Invalid login details provided!');
 		}  
         Auth::login($user);
-        return redirect()->route('tips');
+        return redirect()->route('tips')->withSuccess('Welcome back');
        
     }
 

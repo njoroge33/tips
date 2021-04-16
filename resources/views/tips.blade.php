@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@include('partials.messages')
 <div class="container-fluid">
 <h2 class="text-center font-weight-bold">Today's Predictions </h2>
 @if ($tips-> count())

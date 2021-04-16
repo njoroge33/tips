@@ -15,7 +15,7 @@ class TipController extends Controller
             // dd($tips);
         return view('tips', ['tips' => $tips]);
         }else{
-            return redirect()->route('login');
+            return redirect()->route('login')->withError('Login first please!!');
         }
     }
 }
