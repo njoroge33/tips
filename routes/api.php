@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/payments/confirmation', 'App\Http\Controllers\PaymentsController@confirmation');
+Route::post('/mpesa', 'App\Http\Controllers\PaymentsController@confirmation');
