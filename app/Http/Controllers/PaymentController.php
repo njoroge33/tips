@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\Payments;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Helpers\Utils;
 
 class PaymentController extends Controller
 {
@@ -50,13 +51,15 @@ $validator = Validator::make($data,
      if($payment)
     {
         $message = "<#SURETIPS>: Dear .$payment -> customerName ,Your deposit for KSH .$payment->amount was a success";
-        Utils::SendMessage($payment->MSISDN, $message);
+        // Utils::SendMessage($payment->MSISDN, $message);
+
+        // $profile = Profile::where(['msisdn'=> $mobilenumber])->first();
 
         function randomPassword() {
             $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
             $pass = array(); //remember to declare $pass as an array
             $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-            for ($i = 0; $i < 8; $i++) {
+            for ($i = 0; $i < 6; $i++) {
                 $n = rand(0, $alphaLength);
                 $pass[] = $alphabet[$n];
             }
@@ -72,20 +75,20 @@ $validator = Validator::make($data,
         ]);
 
         if($user){
-
+          
             if ($payment['amount'] == 50){
                 // add 3 days to date
-                $user['unique_key_expiry'] = date('y:m:d', strtotime('+3 days'));
+                $user['unique_key_expiry'] = date('y:m:d H:i:s', strtotime('+3 days'));
                 $user->save();
     
             } elseif ($payment['amount'] == 100){
-                // add 3 days to date
-                $user['unique_key_expiry'] = date('y:m:d', strtotime('+7 days'));
+                // add 7 days to date
+                $user['unique_key_expiry'] = date('y:m:d H:i:s', strtotime('+7 days'));
                 $user->save();
             }
 
-            $message = "<#SURETIPS>: Dear .$user->profile_name ,Your Unique Key is .$user->uniqe_key . It will be expire on .$user->uniqe_key_expiry.";
-            Utils::SendMessage($user->msisdn, $message);
+            $message = "<#SURETIPS>: Dear $user->profile_name ,Your Unique Key is $user->unique_key . It will be expire on $user->uniqe_key_expiry.";
+            // Utils::SendMessage($user->msisdn, $message);
         }
         
         

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Helpers\Utils;
-
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,9 +34,14 @@ class LoginController extends Controller
         if(!$user)
 		{	
 		return redirect()->back()->withError('Invalid login details provided!');
-		}  
-        Auth::login($user);
-        return redirect()->route('tips')->withSuccess('Welcome back');
+		}else{
+            if($user->unique_key_expiry > Carbon::now()){
+                Auth::login($user);
+                return redirect()->route('tips')->withSuccess('Welcome back');
+            }else{
+                return redirect()->route('subscribe')->withError('Your subscription has expired!.Please renew your subscription.');
+            }
+        }
        
     }
 
