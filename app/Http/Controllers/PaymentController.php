@@ -8,6 +8,7 @@ use App\Models\Payments;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Helpers\Utils;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
@@ -53,7 +54,7 @@ $validator = Validator::make($data,
         $message = "<#SURETIPS>: Dear .$payment -> customerName ,Your deposit for KSH .$payment->amount was a success";
         // Utils::SendMessage($payment->MSISDN, $message);
 
-        // $profile = Profile::where(['msisdn'=> $mobilenumber])->first();
+        $profile = Profile::where(['msisdn'=> $payment->MSISDN])->first();
 
         function randomPassword() {
             $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
@@ -66,29 +67,59 @@ $validator = Validator::make($data,
             return implode($pass); //turn the array into a string
         }
 
-        $user=  Profile::create([
-            'profile_uuid'=> Str::uuid(),
-            'msisdn' => $payment['MSISDN'],
-            'profile_name' => $payment['customerName'],
-            'unique_key'=> randomPassword(),
-            // 'unique_key_expiry' => ,
-        ]);
+        if($profile){
+                if ($payment['amount'] == 50 && $profile->unique_key_expiry <= Carbon::now() ){
+                    // add 3 days to date
+                    $profile['unique_key_expiry'] = date('y:m:d H:i:s', strtotime('+3 days'));
+                    $profile->save();
+        
+                } elseif ($payment['amount'] == 100 && $profile->unique_key_expiry <= Carbon::now()){
+                    // add 7 days to date
+                    $profile['unique_key_expiry'] = date('y:m:d H:i:s', strtotime('+7 days'));
+                    $profile->save();
+                }elseif ($payment['amount'] == 50 && $profile->unique_key_expiry > Carbon::now() ){
+                    // add 3 days to date
+                    $profile['unique_key_expiry'] = date('y:m:d H:i:s', strtotime($profile->unique_key_expiry. '+3 days'));
+                    $profile->save();
+                }elseif ($payment['amount'] == 100 && $profile->unique_key_expiry > Carbon::now() ){
+                    // add 7 days to date
+                    $profile['unique_key_expiry'] = date('y:m:d H:i:s', strtotime($profile->unique_key_expiry. '+7 days'));
+                    $profile->save();
+                }else{
+                    return redirect()->route('subscribe')->withError('You entered the wrong amount please choose between 50 and 100 Kshs');
+                }
 
-        if($user){
-          
-            if ($payment['amount'] == 50){
-                // add 3 days to date
-                $user['unique_key_expiry'] = date('y:m:d H:i:s', strtotime('+3 days'));
-                $user->save();
-    
-            } elseif ($payment['amount'] == 100){
-                // add 7 days to date
-                $user['unique_key_expiry'] = date('y:m:d H:i:s', strtotime('+7 days'));
-                $user->save();
+                $message = "<#SURETIPS>: Dear $profile->profile_name ,Your subscribtion has been renewed successfully.It will be expire on $profile->uniqe_key_expiry.";
+                // Utils::SendMessage($user->msisdn, $message);
+
+                return redirect()->route('login')->withSuccess('Your subscribtion has been renewed successfully.Please login');
+        }else{
+            $user=  Profile::create([
+                'profile_uuid'=> Str::uuid(),
+                'msisdn' => $payment['MSISDN'],
+                'profile_name' => $payment['customerName'],
+                'unique_key'=> randomPassword(),
+                // 'unique_key_expiry' => ,
+            ]);
+
+            if($user){
+            
+                if ($payment['amount'] == 50){
+                    // add 3 days to date
+                    $user['unique_key_expiry'] = date('y:m:d H:i:s', strtotime('+3 days'));
+                    $user->save();
+        
+                } elseif ($payment['amount'] == 100){
+                    // add 7 days to date
+                    $user['unique_key_expiry'] = date('y:m:d H:i:s', strtotime('+7 days'));
+                    $user->save();
+                }
+
+                $message = "<#SURETIPS>: Dear $user->profile_name ,Your Unique Key is $user->unique_key . It will be expire on $user->uniqe_key_expiry.";
+                // Utils::SendMessage($user->msisdn, $message);
+
+                return redirect()->route('login')->withSuccess('Unique key successfully sent to your phone.Please login');
             }
-
-            $message = "<#SURETIPS>: Dear $user->profile_name ,Your Unique Key is $user->unique_key . It will be expire on $user->uniqe_key_expiry.";
-            // Utils::SendMessage($user->msisdn, $message);
         }
         
         
