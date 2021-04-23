@@ -22,22 +22,8 @@ class PaymentController extends Controller
         "host"=>$request->getHost()
       ];
 
-$validator = Validator::make($data,
-        array(
-            'MSISDN'  =>'required|numeric|min:254000000000|max:254999999999',
-            'BusinessShortCode' =>    'required|numeric',
-            'TransID' =>    'required|alpha_num|min:6',
-            'BillRefNumber' => 'required|string|min:3',
-            'TransAmount' => 'required|numeric|min:10',
-            'FirstName' => 'required|alpha_num|min:3',
-            'OrgAccountBalance'=>'required|numeric',
-        ));
+      Log::info("mPesa Confirmation | Request:=> ".json_encode($data)."| metadata =>".json_encode($metadata));
 
-        // if ($validator->fails()) {
-        //   Log::error($validator->errors()->all());
-        //    return response()->json(['success'=>false,"message"=>"Error we are unable to complete your request "]);
-
-        //         }
     $payment=  Payments::create([
          'MSISDN'=> $data['MSISDN'],
          'businessNumber'=>$data['BusinessShortCode'],
@@ -68,6 +54,8 @@ $validator = Validator::make($data,
         }
 
         if($profile){
+                Log::info($payment['MSISDN']."|Profile found renewal for amount".$payment['amount']);
+            
                 if ($payment['amount'] == 50 && $profile->unique_key_expiry <= Carbon::now() ){
                     // add 3 days to date
                     $profile['unique_key_expiry'] = date('y:m:d H:i:s', strtotime('+3 days'));
@@ -94,6 +82,8 @@ $validator = Validator::make($data,
 
                 return redirect()->route('login')->withSuccess('Your subscribtion has been renewed successfully.Please login');
         }else{
+            Log::info($payment['MSISDN']."|No profile create a new profile");
+
             $user=  Profile::create([
                 'profile_uuid'=> Str::uuid(),
                 'msisdn' => $payment['MSISDN'],
@@ -124,29 +114,6 @@ $validator = Validator::make($data,
         
         
     }
-        // $response = json_decode($request -> getContent());
 
-        // if($response->Body->stkCallback->ResultCode == 0){
-        //     $trn = new Deposit;
-
-        //     $trn -> profile_id = auth()->user()->profile_id;
-        //     $trn -> uuid = Str::uuid();
-        //     $trn-> result_desc = $response->Body->stkCallback->ResultDesc;
-        //     $trn-> merchant_request_id = $response->Body->stkCallback->MerchantRequestID;
-        //     $trn-> checkout_request_id = $response->Body->stkCallback->CheckoutRequestID;
-        //     $trn-> amount = $response->Body->stkCallback->CallbackMetadata->Item[0]->Value;
-        //     $trn-> mpesa_receipt_number = $response->Body->stkCallback->CallbackMetadata->Item[1]->Value;
-        //     $trn-> transaction_date = $response->Body->stkCallback->CallbackMetadata->Item[2]->Value;
-        //     $trn-> phone_number = $response->Body->stkCallback->CallbackMetadata->Item[3]->Value;
-            
-        //     if($trn->save()){
-        //         $profile =auth()->user();
-        //         $balance= (int)$profile->accountBalance;
-        //         $profile-> accountBalance = ($balance + (int)$trn-> amount);
-        //         $profile->save();
-
-        //         return redirect() -> route('bids')->withSuccess("You sucessfully deposited Kshs '.$trn-> amount' ");
-        //     }
-        // }
     }
 }
